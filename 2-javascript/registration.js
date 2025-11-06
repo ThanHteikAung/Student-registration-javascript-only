@@ -54,16 +54,25 @@ class Bootcamp {
     }
 
     listStudents() {
-        const strStudentList = "";
+        let strStudentList = " ";
         if (tmpStorageStud.bootcamp.length === 0) {
             console.log(`No students are registered to the ${this.name} bootcamp.`)
         } else {
             for (let index = 0; index < tmpStorageStud.bootcamp.length; index++) {
-                strStudentList += `Name: ${tmpStorageStud.bootcamp[0].name} Email: ${tmpStorageStud.bootcamp[0].email}\n`
+                strStudentList += `\n Name: ${tmpStorageStud.bootcamp[index].student.name} Email: ${tmpStorageStud.bootcamp[index].student.email}\n`
 
             }
             console.log(`The students registered in ${this.name} are: ${strStudentList}`)
         }
+    }
+
+    //Bonus Tasks
+    getInfo(){
+        return `Bootcamp Name: ${tmpStorageStud.bootcamp[0].name} Level: ${tmpStorageStud.bootcamp[0].name}`
+    }
+
+    removeStudent(email){
+        
     }
 }
 
@@ -81,7 +90,7 @@ if (reactBootcamp.name === 'React' && reactBootcamp.level === 'Advanced'
     console.log('TASK 2: PASS');
 }
 
-const runTest = (bootcamp, student) => {
+/* const runTest = (bootcamp, student) => {
     const attemptOne = bootcamp.registerStudent(student);
     const attemptTwo = bootcamp.registerStudent(student);
     const attemptThree = bootcamp.registerStudent(new Student("Babs Bunny"));
@@ -89,5 +98,25 @@ const runTest = (bootcamp, student) => {
         console.log("TASK 3: PASS");
     }
 };
+runTest(reactBootcamp, testStudent); */
+
+const runTest = (bootcamp, student) => {
+    const attemptOne = bootcamp.registerStudent(student);
+    const attemptTwo = bootcamp.registerStudent(student);
+    const attemptThree = bootcamp.registerStudent(new Student("Babs Bunny"));
+    if ( attemptOne && !attemptTwo && !attemptThree) {
+        console.log("TASK 3: PASS");
+    }
+
+    bootcamp.registerStudent(new Student('Babs Bunny', 'babs@bunny.com'));
+    if (bootcamp.listStudents()) {
+        console.log("TASK 4: PASS 1/2");
+    }
+    bootcamp.students = [];
+    if (!bootcamp.listStudents()) {
+        console.log("TASK 4: PASS 2/2");
+    }
+};
+
 runTest(reactBootcamp, testStudent);
 
