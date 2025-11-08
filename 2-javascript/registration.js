@@ -7,6 +7,15 @@ class Student {
         this.name = name;
         this.email = email;
     }
+
+    getInfo() {
+        let strStudentList = "";
+        for (let index = 0; index < tmpStorageStud.bootcamp.length; index++) {
+            strStudentList += `Name: ${tmpStorageStud.bootcamp[index].student.name} Email: ${tmpStorageStud.bootcamp[index].student.email}\n`
+
+        }
+        console.log(strStudentList)
+    }
 }
 
 class Bootcamp {
@@ -49,7 +58,6 @@ class Bootcamp {
                     return true;
                 }
             }
-
         }
     }
 
@@ -59,7 +67,7 @@ class Bootcamp {
             console.log(`No students are registered to the ${this.name} bootcamp.`)
         } else {
             for (let index = 0; index < tmpStorageStud.bootcamp.length; index++) {
-                strStudentList += `\n Name: ${tmpStorageStud.bootcamp[index].student.name} Email: ${tmpStorageStud.bootcamp[index].student.email}\n`
+                strStudentList += `Name: ${tmpStorageStud.bootcamp[index].student.name} Email: ${tmpStorageStud.bootcamp[index].student.email}\n`
 
             }
             console.log(`The students registered in ${this.name} are: ${strStudentList}`)
@@ -67,12 +75,33 @@ class Bootcamp {
     }
 
     //Bonus Tasks
-    getInfo(){
-        return `Bootcamp Name: ${tmpStorageStud.bootcamp[0].name} Level: ${tmpStorageStud.bootcamp[0].name}`
+    getInfo() {
+        const initIndex = 0;
+        if (tmpStorageStud.bootcamp.length > 0) {
+            console.log(`Bootcamp Name: ${tmpStorageStud.bootcamp[0].name} Level: ${tmpStorageStud.bootcamp[0].level}`);
+        }
     }
 
-    removeStudent(email){
-        
+    removeStudent(delEmail) {
+        let tmpArray = new Array;
+        let jsonString = "";
+        let count = 0;
+        for (let index = 0; index < tmpStorageStud.bootcamp.length; index++) {
+            if (tmpStorageStud.bootcamp[index].student.email === delEmail) {
+                tmpArray = Object.values(tmpStorageStud.bootcamp)
+                tmpArray.splice(index, 1)
+                jsonString = JSON.stringify(tmpArray);
+                jsonString = jsonString.substring(1, jsonString.length - 1);
+                tmpStorageStud.bootcamp = [];
+                tmpStorageStud['bootcamp'].push(JSON.parse(jsonString));
+                console.log(`${delEmail} have been deleted`)
+                count = 1;
+                break;
+            }
+        }
+        if (count === 0) {
+            console.log(`This ${delEmail} is not registered in Bootcamp!`)
+        }
     }
 }
 
@@ -104,7 +133,7 @@ const runTest = (bootcamp, student) => {
     const attemptOne = bootcamp.registerStudent(student);
     const attemptTwo = bootcamp.registerStudent(student);
     const attemptThree = bootcamp.registerStudent(new Student("Babs Bunny"));
-    if ( attemptOne && !attemptTwo && !attemptThree) {
+    if (attemptOne && !attemptTwo && !attemptThree) {
         console.log("TASK 3: PASS");
     }
 
@@ -116,7 +145,17 @@ const runTest = (bootcamp, student) => {
     if (!bootcamp.listStudents()) {
         console.log("TASK 4: PASS 2/2");
     }
+
+    console.log("Bonus Task");
+    console.log("Before remove Student list and bootcamp name are");
+    bootcamp.getInfo();
+    student.getInfo();
+    bootcamp.removeStudent('babs@bunny.com');
+    console.log("After remove Student list and bootcamp name are");
+    bootcamp.getInfo();
+    student.getInfo();
 };
 
 runTest(reactBootcamp, testStudent);
+
 
